@@ -1,0 +1,150 @@
+table index_coffee
+	lineageTag: ba68a9ad-73be-4520-adbb-b6aebe88f613
+
+	measure 'Total Ingresos' =
+			
+			SUM('index_coffee'[money])
+		formatString: 0
+		lineageTag: 5487116c-8ca0-4f20-8649-6eca25d5a12e
+
+	measure Ventas = sum('index_coffee'[money])
+		formatString: 0
+		lineageTag: 46c679b7-79a7-4b5a-9cf8-03b964c81870
+
+	measure 'Total Transacciones' =
+			
+			COUNT(index_coffee[cash_type])
+		formatString: 0
+		lineageTag: 13bb592a-8583-4ae6-9d28-1f935b4f9cfc
+
+	measure 'Ticket Promedio' =
+			
+			DIVIDE([Total Ingresos], [Total Transacciones], 0)
+		lineageTag: f5b365b7-7478-4012-a0c8-b4ba5d64a8f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Clientes Unicos' =
+			
+			DISTINCTCOUNT('index_coffee'[card])
+		formatString: 0
+		lineageTag: 13d4ddc8-53d1-4533-8109-61855ed1d44b
+
+	measure 'Ingresos por Tarjeta' =
+			
+			CALCULATE(
+			    [Total Ingresos],
+			    'index_coffee'[cash_type] = "card"
+			)
+		formatString: 0
+		lineageTag: 12ed890c-baad-4c6c-8321-5a4ea7d988ea
+
+	measure 'Ingresos por Efectivo' =
+			
+			CALCULATE(
+			    [Total Ingresos],
+			    'index_coffee'[cash_type] = "cash"
+			)
+		formatString: 0
+		lineageTag: aa349a2a-adf4-4db0-b33d-8bb4955f42c7
+
+	measure '% Ventas Tarjeta' =
+			
+			DIVIDE([Ingresos por Tarjeta], [Total Ingresos], 0)
+		lineageTag: a3870056-51a5-43f5-99df-e588a0d6f9b7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Producto Mas Vendido' = ```
+			
+			TOPN(
+			    1, 
+			    VALUES('index_coffee'[coffee_name]), 
+			    [Total Transacciones], 
+			    DESC
+			)
+			```
+		lineageTag: e6cc6db2-aeaa-4a78-955d-4f1dc29529b6
+
+	measure 'Promedio Gasto por Cliente' =
+			
+			DIVIDE([Ingresos por Tarjeta], [Clientes Unicos], 0)
+		lineageTag: 232585ee-d5ef-41c4-95c2-b5a8929cbc09
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cf8aeeb2-bef3-4e86-a9c9-a18e250fdcd3
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variación
+			isDefault
+			relationship: 0ce671b3-b1e4-48b4-a005-a3c4370ca03f
+			defaultHierarchy: LocalDateTable_3015a414-f0bf-48c4-a1a1-8034a51cde7b.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column datetime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4ecfe8e3-9c3b-49b9-8039-04856288eb3e
+		summarizeBy: none
+		sourceColumn: datetime
+
+		variation Variación
+			isDefault
+			relationship: f34b6da8-49c9-45cc-9af2-d6eb6d726e42
+			defaultHierarchy: LocalDateTable_f81d8875-61de-4eb1-b473-013dba763f93.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column cash_type
+		dataType: string
+		lineageTag: bdb13895-e6f2-4681-a8f6-9f9b6fe55368
+		summarizeBy: none
+		sourceColumn: cash_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column card
+		dataType: string
+		lineageTag: 40f23cd8-5c77-4d95-8a9c-9f4f8d655523
+		summarizeBy: none
+		sourceColumn: card
+
+		annotation SummarizationSetBy = Automatic
+
+	column money
+		dataType: int64
+		formatString: 0
+		lineageTag: ed4dee85-f269-4592-8f64-011d612a4136
+		summarizeBy: sum
+		sourceColumn: money
+
+		annotation SummarizationSetBy = Automatic
+
+	column coffee_name
+		dataType: string
+		lineageTag: 5c9487df-d620-455f-9295-2050b36bc813
+		summarizeBy: none
+		sourceColumn: coffee_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition index_coffee = m
+		mode: import
+		source =
+				let
+				  Origen = Csv.Document(File.Contents("C:\Users\uriel\Downloads\index_coffee.csv"), [Delimiter = ",", Columns = 6, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"date", type date}, {"datetime", type datetime}, {"cash_type", type text}, {"card", type text}, {"money", Int64.Type}, {"coffee_name", type text}}, "es")
+				in
+				  #"Tipo de columna cambiado"
+
+	annotation PBI_ResultType = Table
+

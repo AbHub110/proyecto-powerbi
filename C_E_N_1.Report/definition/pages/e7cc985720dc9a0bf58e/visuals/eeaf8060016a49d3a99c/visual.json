@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "eeaf8060016a49d3a99c",
+  "position": {
+    "x": 1058.7743418484627,
+    "y": 461.88142429630921,
+    "z": 2000,
+    "height": 618.21052175044463,
+    "width": 861.586503014269,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "index_coffee"
+                    }
+                  },
+                  "Property": "coffee_name"
+                }
+              },
+              "queryRef": "index_coffee.coffee_name",
+              "nativeQueryRef": "coffee_name",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "index_coffee"
+                    }
+                  },
+                  "Property": "% Ventas Tarjeta"
+                }
+              },
+              "queryRef": "index_coffee.% Ventas Tarjeta",
+              "nativeQueryRef": "% Ventas Tarjeta"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1af27e550fd5630dc7cb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "index_coffee"
+              }
+            },
+            "Property": "% Ventas Tarjeta"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "77747d08408c205220c0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "index_coffee"
+              }
+            },
+            "Property": "coffee_name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

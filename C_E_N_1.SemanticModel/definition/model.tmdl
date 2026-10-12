@@ -1,0 +1,24 @@
+model Model
+	culture: es-MX
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["index_coffee"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table index_coffee
+ref table DateTableTemplate_c080f2bf-ffcc-426e-ae8d-78d8b8f78db3
+ref table LocalDateTable_3015a414-f0bf-48c4-a1a1-8034a51cde7b
+ref table LocalDateTable_f81d8875-61de-4eb1-b473-013dba763f93
+ref table Calendario
+ref table LocalDateTable_20aafce3-a1d6-4e93-9295-60efcecf3eb9
+
+ref cultureInfo es-MX
+

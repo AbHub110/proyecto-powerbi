@@ -1,0 +1,45 @@
+table Calendario
+	lineageTag: 7d25c75d-2e55-48e8-b79d-3f8b320eb30a
+
+	measure 'Ingresos YTD' =
+			
+			TOTALYTD([Total Ingresos], 'Calendario'[Date])
+		formatString: 0
+		lineageTag: bdf9fe57-71de-4ad3-a47b-3edd2148472a
+
+	measure 'Ingresos Mes Anterior' = ```
+			
+			CALCULATE(
+			    [Total Ingresos], 
+			    DATEADD('Calendario'[Date], -1, MONTH)
+			)
+			```
+		formatString: 0
+		lineageTag: 43a6894a-8296-46b0-bc46-4a6a7407072f
+
+	column Date
+		formatString: General Date
+		lineageTag: 84454e88-a426-4b39-a68b-366560d8f03b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variación
+			isDefault
+			relationship: d7a3f5ae-c3ad-4065-8bc0-bb52b6ca2698
+			defaultHierarchy: LocalDateTable_20aafce3-a1d6-4e93-9295-60efcecf3eb9.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendario = calculated
+		mode: import
+		source = ```
+				
+				CALENDAR(
+				    MIN('index_coffee'[date]), 
+				    MAX('index_coffee'[date])
+				)
+				```
+
+	annotation PBI_Id = 38883f91117e42cea1d3f96564d05971
+

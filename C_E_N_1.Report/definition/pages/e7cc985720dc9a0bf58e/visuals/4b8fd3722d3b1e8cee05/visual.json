@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "4b8fd3722d3b1e8cee05",
+  "position": {
+    "x": 0,
+    "y": 606,
+    "z": 2001,
+    "height": 474,
+    "width": 1059,
+    "tabOrder": 2001
+  },
+  "visual": {
+    "visualType": "treemap",
+    "query": {
+      "queryState": {
+        "Group": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "index_coffee"
+                    }
+                  },
+                  "Property": "coffee_name"
+                }
+              },
+              "queryRef": "index_coffee.coffee_name",
+              "nativeQueryRef": "coffee_name",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "index_coffee"
+                    }
+                  },
+                  "Property": "Promedio Gasto por Cliente"
+                }
+              },
+              "queryRef": "index_coffee.Promedio Gasto por Cliente",
+              "nativeQueryRef": "Promedio Gasto por Cliente"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dba609d17a1db63eaaff",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "index_coffee"
+              }
+            },
+            "Property": "Promedio Gasto por Cliente"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6e2d2bc1bb181eccf8ce",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "index_coffee"
+              }
+            },
+            "Property": "coffee_name"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
